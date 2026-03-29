@@ -2,32 +2,64 @@
 
 ## Status
 
-This is a **new, empty project** that has not been initialized yet.
+This is a **Solidity smart contract project** implementing a PoSR (Proof of Stake Rotation) staking protocol.
 
-- **Repository**: Git initialized (`.git` directory exists)
-- **Commits**: None (no commits yet)
-- **Files**: No project files present
-- **Working Directory**: `d:\sci\sci`
+- **Technology**: Solidity ^0.8.20, Hardhat, OpenZeppelin
+- **Framework**: Hardhat with TypeScript
+- **Proxy Pattern**: UUPS Upgradeable
+- **License**: MIT
 
-## Next Steps
+## Project Structure
 
-To properly analyze and document this project, the following needs to happen:
+```
+contracts/
+├── PoSRStake.sol          # Main staking contract
+└── PoSRStakeFactory.sol   # Factory for deploying instances
 
-1. **Initialize the project** with your preferred technology stack (e.g., Python, Node.js, Rust, etc.)
-2. **Add configuration files** (e.g., `pyproject.toml`, `package.json`, `Cargo.toml`, etc.)
-3. **Create source code** files and directory structure
+scripts/
+└── deploy.ts              # Deployment script
 
-## How to Proceed
+test/
+└── PoSRStake.test.ts      # Test suite
+```
 
-Once files are added to this directory, the project can be analyzed to determine:
+## Core Features
 
-- Technology stack and frameworks
-- Build system and dependencies
-- Code organization and module structure
-- Testing strategies
-- Deployment configuration
+1. **Validator Management**: Registration with metadata, commission rates
+2. **Staking**: Native ETH staking with delegation support
+3. **Unbonding**: Time-locked unstaking (default 14 days)
+4. **Rewards**: Auto-calculated rewards based on stake and time
+5. **Slashing**: Penalty system for misbehavior (5% slash + 7-day jail)
 
----
+## Key Parameters
 
-*Last updated: 2026-03-29*
-*Note: This file will be updated once project files are added.*
+| Parameter | Default Value |
+|-----------|---------------|
+| minStakeAmount | 32 ETH |
+| unbondingPeriod | 14 days |
+| jailPeriod | 7 days |
+| maxCommissionRate | 20% |
+| slashPercentage | 5% |
+
+## Build & Test
+
+```bash
+npm install
+npm run compile
+npm test
+```
+
+## Deployment
+
+```bash
+# Local
+npm run node
+npm run deploy:localhost
+
+# Testnet (configure .env first)
+npm run deploy:sepolia
+```
+
+## Last Updated
+
+2026-03-29
