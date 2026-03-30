@@ -60,6 +60,9 @@ npm run deploy:localhost
 npm run deploy:sepolia
 ```
 
+## 注意事项
+agent不许读取.env中的数据内容
+
 ## Last Updated
 
 2026-03-29

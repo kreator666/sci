@@ -54,6 +54,7 @@ contract PoSRStake is
     struct Delegation {
         uint256 amount;               // 委托金额
         uint256 rewardDebt;           // 奖励债务
+        uint256 accumulatedRewards;   // 累积的待领取奖励
         uint256 unbondingAmount;      // 正在解质押的金额
         uint256 unbondingCompleteTime; // 解质押完成时间
     }

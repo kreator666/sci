@@ -10,6 +10,11 @@ import "./PoSRStake.sol";
  */
 contract PoSRStakeFactory {
     
+    // 角色定义
+    bytes32 public constant DEFAULT_ADMIN_ROLE = 0x0000000000000000000000000000000000000000000000000000000000000000;
+    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+    bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
+    
     // 实现合约地址
     address public implementation;
     
@@ -58,17 +63,18 @@ contract PoSRStakeFactory {
         );
         
         proxy = address(proxyContract);
+        PoSRStake posrStake = PoSRStake(payable(proxy));
         
         // 转移管理员权限
         if (_admin != address(this)) {
-            PoSRStake(proxy).grantRole(PoSRStake.ADMIN_ROLE(), _admin);
-            PoSRStake(proxy).grantRole(PoSRStake.UPGRADER_ROLE(), _admin);
-            PoSRStake(proxy).grantRole(PoSRStake.DEFAULT_ADMIN_ROLE(), _admin);
+            posrStake.grantRole(ADMIN_ROLE, _admin);
+            posrStake.grantRole(UPGRADER_ROLE, _admin);
+            posrStake.grantRole(DEFAULT_ADMIN_ROLE, _admin);
             
             // 撤销工厂的权限
-            PoSRStake(proxy).renounceRole(PoSRStake.DEFAULT_ADMIN_ROLE(), address(this));
-            PoSRStake(proxy).renounceRole(PoSRStake.ADMIN_ROLE(), address(this));
-            PoSRStake(proxy).renounceRole(PoSRStake.UPGRADER_ROLE(), address(this));
+            posrStake.renounceRole(DEFAULT_ADMIN_ROLE, address(this));
+            posrStake.renounceRole(ADMIN_ROLE, address(this));
+            posrStake.renounceRole(UPGRADER_ROLE, address(this));
         }
         
         deployedContracts.push(proxy);
