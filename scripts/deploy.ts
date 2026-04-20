@@ -142,3 +142,4 @@ main()
     console.error(error);
     process.exit(1);
   });
+//因为第二轮修改的是.env文件 所以不应该发出代码更改
